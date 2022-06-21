@@ -1,4 +1,5 @@
 function main() {
+  //=========Define constants=========//
   const width = window.innerWidth;
   const height = window.innerHeight;
   const margin = {
@@ -21,25 +22,28 @@ function main() {
     }
     return r;
   };
+  //======================================//
   const svg = d3
     .select("body")
     .append("svg")
     .attr("width", width)
     .attr("height", height);
 
-  let country = 0;
+  let i = 0;
   const draw = async () => {
+    // Get the data
     let data = await d3.csv(csvUrl, parseRow);
     data = data.filter((d) => d[0].Province === "");
 
     setInterval(() => {
-      const title = data[country][1].Country.split("");
-      const t = svg.transition().duration(750);
-      // const countryTitle = svg.append("g").attr("class", "title");
+      const timeSeriesData = data[i].slice(2);
+      const countryName = data[i][1].Country.split("");
+      //=================Title================//
       svg
         .selectAll("text")
-        .data(title, (d) => d)
+        .data(countryName, (d) => d) //Example: countryName = [S, i, n, g, a, p, o, r, e];
         .join(
+          // TODO #1
           (enter) => enter.append("text", (d) => d).text((d) => d),
           (update) => update,
           (exit) => exit.remove()
@@ -47,7 +51,44 @@ function main() {
         .attr("x", (d, i) => i * 16 + margin.left)
         .attr("y", margin.top / 2);
 
-      country++;
+      //=================Chart================//
+      // var x = d3
+      //   .scaleTime()
+      //   .domain(
+      //     d3.extent(timeSeriesData, function (d) {
+      //       return new Date(d.Date);
+      //     })
+      //   )
+      //   .range([margin.left, width - margin.right]);
+      // var y = d3
+      //   .scaleLinear()
+      //   .domain([0, d3.max(timeSeriesData, (d) => d.Cases)])
+      //   .range([height - margin.bottom, margin.top]);
+      // const line = d3
+      //   .line()
+      //   .x((d) => x(new Date(d.Date)))
+      //   .y((d) => y(d.Cases));
+
+      // const xAxis = (g, scale = x) =>
+      //   g.attr("transform", `translate(0,${height - margin.bottom})`).call(
+      //     d3
+      //       .axisBottom(scale)
+      //       .ticks(width / 80)
+      //       .tickSizeOuter(0)
+      //   );
+
+      // const yAxis = (g, scale = y) =>
+      //   g
+      //     .attr("transform", `translate(${margin.left},0)`)
+      //     .call(d3.axisLeft(scale).ticks(height / 40));
+
+      // svg.append("g").attr("class", "axis").call(xAxis, x);
+      // svg.append("g").attr("class", "axis").call(yAxis, y);
+
+      // // TODO #2
+      // const path = svg.selectAll("path");
+
+      i++;
     }, 3000);
   };
   draw();
