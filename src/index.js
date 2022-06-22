@@ -20,7 +20,6 @@ function main() {
     for (let i = 4; i < cols.length; i++) {
       r.push({ Date: cols[i], Cases: +vals[i] });
     }
-    // r.push({ Date: cols[cols.length - 1], Cases: 0 });
     return r;
   };
   //======================================//
@@ -45,7 +44,7 @@ function main() {
         .data(countryName, (d) => d) //Example: countryName = [S, i, n, g, a, p, o, r, e];
         .join(
           // TODO #1
-          (enter) => enter.append("text", (d) => d).text((d) => d),
+          (enter) => enter.append("text").text((d) => d),
           (update) => update,
           (exit) => exit.remove()
         )
