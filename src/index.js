@@ -90,10 +90,7 @@ function main() {
       //   .y((d) => y(d.Cases));
 
       // // TODO #2
-      // const path = svg
-      //   .selectAll("path")
-      //   .data([timeSeriesData])
-      // i++;
+      // svg.append("path").attr("d", line(timeSeriesData))
     }, 3000);
   };
   draw();
