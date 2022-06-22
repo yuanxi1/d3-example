@@ -20,6 +20,7 @@ function main() {
     for (let i = 4; i < cols.length; i++) {
       r.push({ Date: cols[i], Cases: +vals[i] });
     }
+    // r.push({ Date: cols[cols.length - 1], Cases: 0 });
     return r;
   };
   //======================================//
@@ -31,7 +32,7 @@ function main() {
 
   let i = 0;
   const draw = async () => {
-    // Get the data
+    // Fetch and process the data
     let data = await d3.csv(csvUrl, parseRow);
     data = data.filter((d) => d[0].Province === "");
 
@@ -80,14 +81,28 @@ function main() {
       // const yAxis = (g, scale = y) =>
       //   g
       //     .attr("transform", `translate(${margin.left},0)`)
-      //     .call(d3.axisLeft(scale).ticks(height / 40));
-
+      //     .call(d3.axisLeft(scale).ticks(height / 40))
+      //     .call((g) => g.select(".domain").remove());
+      // svg.selectAll(".axis").remove();
       // svg.append("g").attr("class", "axis").call(xAxis, x);
       // svg.append("g").attr("class", "axis").call(yAxis, y);
 
-      // // TODO #2
-      // const path = svg.selectAll("path");
-
+      // // // TODO #2
+      // // const path = svg.selectAll("path").attr("fill", "steelblue");
+      // const t = svg.transition().duration(750);
+      // const path = svg
+      //   .selectAll(".line-chart")
+      //   .data([null])
+      //   .join(
+      //     (enter) => enter.append("path").attr("d", line(timeSeriesData)),
+      //     (update) => update.transition(t).attr("d", line(timeSeriesData)),
+      //     (exit) => exit.remove()
+      //   )
+      //   // .attr("fill", "steelblue")
+      //   .attr("stroke", "steelblue")
+      //   .attr("stroke-width", 2)
+      //   .attr("stroke-miterlimit", 1)
+      //   .attr("class", "line-chart");
       i++;
     }, 3000);
   };
