@@ -30,15 +30,15 @@ function main() {
     .attr("width", width)
     .attr("height", height);
 
-  let i = 0;
   const draw = async () => {
     // Fetch and process the data
     let data = await d3.csv(csvUrl, parseRow);
     data = data.filter((d) => d[0].Province === "");
 
     setInterval(() => {
-      const timeSeriesData = data[i].slice(2);
-      const countryName = data[i][1].Country.split("");
+      const countryIndex = Math.floor(Math.random() * data.length);
+      const timeSeriesData = data[countryIndex].slice(2);
+      const countryName = data[countryIndex][1].Country.split("");
       //=================Title================//
       svg
         .selectAll("text")
@@ -61,14 +61,11 @@ function main() {
       //     })
       //   )
       //   .range([margin.left, width - margin.right]);
+
       // var y = d3
       //   .scaleLinear()
       //   .domain([0, d3.max(timeSeriesData, (d) => d.Cases)])
       //   .range([height - margin.bottom, margin.top]);
-      // const line = d3
-      //   .line()
-      //   .x((d) => x(new Date(d.Date)))
-      //   .y((d) => y(d.Cases));
 
       // const xAxis = (g, scale = x) =>
       //   g.attr("transform", `translate(0,${height - margin.bottom})`).call(
@@ -83,27 +80,21 @@ function main() {
       //     .attr("transform", `translate(${margin.left},0)`)
       //     .call(d3.axisLeft(scale).ticks(height / 40))
       //     .call((g) => g.select(".domain").remove());
+
       // svg.selectAll(".axis").remove();
       // svg.append("g").attr("class", "axis").call(xAxis, x);
       // svg.append("g").attr("class", "axis").call(yAxis, y);
 
-      // // // TODO #2
-      // // const path = svg.selectAll("path").attr("fill", "steelblue");
-      // const t = svg.transition().duration(750);
+      // const line = d3
+      //   .line()
+      //   .x((d) => x(new Date(d.Date)))
+      //   .y((d) => y(d.Cases));
+
+      // // TODO #2
       // const path = svg
-      //   .selectAll(".line-chart")
-      //   .data([null])
-      //   .join(
-      //     (enter) => enter.append("path").attr("d", line(timeSeriesData)),
-      //     (update) => update.transition(t).attr("d", line(timeSeriesData)),
-      //     (exit) => exit.remove()
-      //   )
-      //   // .attr("fill", "steelblue")
-      //   .attr("stroke", "steelblue")
-      //   .attr("stroke-width", 2)
-      //   .attr("stroke-miterlimit", 1)
-      //   .attr("class", "line-chart");
-      i++;
+      //   .selectAll("path")
+      //   .data([timeSeriesData])
+      // i++;
     }, 3000);
   };
   draw();
